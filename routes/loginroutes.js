@@ -33,12 +33,12 @@ exports.register = function(req,res){
               db.collection('users').update({user_id:User.user_id},User,{upsert:true},(error,user) => {
                   if (err) callback(null, { statusCode: 500, body: JSON.stringify(error) })
                   let data ={'id':User.user_id,'User':User,'tokenId':''}
-                  res.json({ statusCode: 200, body: JSON.stringify(data)});
+                  res.json({ statusCode: 201, body: JSON.stringify(data)});
                   db.close();
           });
         }
           else if(result !== null){
-              res.json({ statusCode: 500, body: 'email id is already register please try to login' })
+              res.json({ statusCode: 400, body: 'email id is already register please try to login' })
               db.close();
           }
       });
@@ -50,5 +50,27 @@ exports.register = function(req,res){
   });
   }
   exports.login = function(req,res){
+    let data = req.body;
+    MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
+        assert.equal(null,err);
+         db.collection('users').findOne({email_id:data.email_id},{password:1,user_id:1},{upsert:false},(err, result) => {
+          if (err) res.json({ statusCode: 500, body: JSON.stringify(err)});
+          if(result !== null){
+              var results = bcrypt.compareSync(data.password,result.password);
+              if(results){
+                  res.json({ statusCode: 200, body: JSON.stringify(result)});
+                  db.close();
+              }
+              else{
+                res.json({ statusCode: 500, body: 'Wrong Password' })
+                db.close();
+              }  
+         }
+        else{
+          res.json({ statusCode: 404, body: 'No user Found'})
+          db.close();
+        }
+      });
+      });
 
   }
