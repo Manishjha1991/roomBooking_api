@@ -1,5 +1,6 @@
 var express    = require("express");
-var login = require('./routes/loginroutes');
+var user = require('./routes/user');
+var rooms = require('./routes/bookingRoom');
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +19,8 @@ router.get('/', function(req, res) {
 });
  
 //route to handle user registration
-router.post('/register',login.register);
-router.post('/login',login.login)
+router.post('/users',user.register);
+router.post('/login',user.login);
+router.get('/rooms',rooms.getAllRooms)
 app.use('/', router);
 app.listen(3000);
