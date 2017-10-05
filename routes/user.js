@@ -53,7 +53,7 @@ exports.register = function(req,res){
     let data = req.body;
     MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
         assert.equal(null,err);
-         db.collection('users').findOne({email_id:data.email_id},{password:1,user_id:1},{upsert:false},(err, result) => {
+         db.collection('users').findOne({email_id:data.email_id},{password:1},{upsert:false},(err, result) => {
           if (err) res.json({ statusCode: 500, body: JSON.stringify(err)});
           if(result !== null){
               var results = bcrypt.compareSync(data.password,result.password);
