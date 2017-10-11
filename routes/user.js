@@ -54,11 +54,11 @@ exports.register = function(req,res){
     MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
         assert.equal(null,err);
          db.collection('users').findOne({email_id:data.email_id},{password:1},{upsert:false},(err, result) => {
-          if (err) res.json({ statusCode: 500, body: JSON.stringify(err)});
+          if (err) res.json({ statusCode: 500, body: err});
           if(result !== null){
               var results = bcrypt.compareSync(data.password,result.password);
               if(results){
-                  res.json({ statusCode: 200, body: JSON.stringify(result)});
+                  res.json({ statusCode: 200, body: result});
                   db.close();
               }
               else{
@@ -74,3 +74,5 @@ exports.register = function(req,res){
       });
 
   }
+
+

@@ -20,6 +20,8 @@ router.get('/', function(req, res) {
 //route to handle user,room and more
 router.post('/users',user.register);
 router.post('/login',user.login);
-router.get('/rooms',rooms.getAllRooms)
+router.post('/getRoomAvailability',rooms.getRoomAvailability)
+
+
 app.use('/', router);
 app.listen(3000);
