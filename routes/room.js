@@ -111,3 +111,21 @@ exports.getRoomAvailability = function(req,res){
         }
     });
     }
+
+  exports.getRoomByDate= async function(req,res,next){
+    const booking_date = req.body.booking_date;
+    const room_id= req.body.room_id;
+    var inputDate = new Date(booking_date);
+    var todaysDate = new Date();
+    MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+      assert.equal(null, err);
+        try{
+          db.collection('rooms').aggregate({$unwind: "$reserved"},{$match: { "reserved.booking_date": {$gte: new Date(booking_date)}} },function(err, result) {
+          res.json({"status":200,"result":result});
+          }   )   
+  }catch(err){
+          throw err;
+        }
+})
+}
+    
