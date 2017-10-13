@@ -20,6 +20,7 @@ router.get('/', function(req, res) {
 //route to handle user,room and more
 router.post('/users',user.register);
 router.post('/login',user.login);
+router.get('/rooms',rooms.getAllRooms);
 router.get('/list',rooms.getList);
 router.post('/getRoomAvailability',rooms.getRoomAvailability);
 router.post('/getRoomStatusByDate',rooms.getRoomByDate);
