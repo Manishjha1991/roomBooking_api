@@ -112,7 +112,7 @@ exports.getRoomAvailability = function(req,res){
     });
     }
 
-  exports.getRoomByDate= async function(req,res,next){
+  exports.getRoomByDate=  function(req,res,next){
     const booking_date = req.body.booking_date;
     const room_id= req.body.room_id;
     var inputDate = new Date(booking_date);
@@ -126,6 +126,40 @@ exports.getRoomAvailability = function(req,res){
   }catch(err){
           throw err;
         }
+})
+}
+
+exports.getList=  function(req,res,next){
+  
+  MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+    assert.equal(null, err);
+      try{
+        if(req.query.type==1){
+          db.collection('rooms').find({},{room_id:1,room_name:1,company_location:1,company_name:1}).toArray((err, result) => {
+            res.json({"status":200,"companyList":result});
+            }   )  
+        };
+        if(req.query.type==2){
+          {
+            
+            result= [
+                {
+                    "_id" : "59defa39d205237da05bbc34",
+                    "contact_number":9901377433,
+                    "room_id": "3c5e25b6-acc1-11e7-abc4-cec278b6b50T",
+                    "room_name": "Conference Name B"
+                }
+            ]
+        }
+        res.json({"status":200,"callList":result});
+          // db.collection('calls').find({},{contact_number:1,room_name:1,company_location:1,company_name:1}).toArray((err, result) => {
+          //   res.json({"status":200,"callList":result});
+          //   }   ) 
+        }
+  
+}catch(err){
+        throw err;
+      }
 })
 }
     
