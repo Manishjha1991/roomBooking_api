@@ -102,21 +102,22 @@ assert.equal(null, err);
 })
 }
 
-exports.addRoom =  function(req,res,next){
+// exports.addRoom =  function(req,res,next){
   
-  MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
-    assert.equal(null, err);
-      try{
+//   MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+//     assert.equal(null, err);
+//       try{
  
   
-  }catch(err){
-        throw err;
-      }
-})
-}
+//   }catch(err){
+//         throw err;
+//       }
+// })
+// }
 
-exports.getList=  function(req,res,next){
+exports.getRoomList=  function(req,res,next){
   
+  console.log(req);
   MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
     assert.equal(null, err);
       try{
