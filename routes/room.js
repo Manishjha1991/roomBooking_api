@@ -102,18 +102,44 @@ assert.equal(null, err);
 })
 }
 
-// exports.addRoom =  function(req,res,next){
-  
-//   MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
-//     assert.equal(null, err);
-//       try{
- 
-  
-//   }catch(err){
-//         throw err;
-//       }
-// })
-// }
+exports.addRooms =  function(req,res,next){
+  console.log(req);
+  const room_id = req.body.room_id;
+  const booking_date =  new Date(req.body.booking_date);
+  const booking_title = req.body.booking_title;
+  const start_time =req.body.start_time;
+  const end_time = req.body.end_time;
+  const host_name = req.body.host_name;
+  const host_userId=req.body.host_userId;
+  const guest_list = req.body.guest_list;
+  const data = {
+    booking_date,
+    booking_title,
+    start_time,
+    end_time,
+    host_name,
+    host_userId,
+    guest_list
+  }
+  MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+    assert.equal(null, err);
+      try{
+        db.collection('rooms').findOneAndUpdate(
+    { room_id: room_id }, 
+    {$push: {reserved:data}},{ new: true },(err,response)=>{
+             if (err) {
+              res.json({ statusCode: 500, body: JSON.stringify(err)})
+          }
+          else if(response){
+                  res.json({ statusCode: 201, body: response});
+        }
+    }
+)
+}catch(err){
+        throw err;
+      }
+})
+}
 
 exports.getRoomList=  function(req,res,next){
   
