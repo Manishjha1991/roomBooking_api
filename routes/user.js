@@ -10,7 +10,6 @@ const salt = bcrypt.genSaltSync(6);
 var dbUrl = require('../db.js').url;
 exports.register = function(req,res){
     const data = req.body;
-    console.log(data);
     var User = {
       'user_id':uuid.v1(),
       'first_name': data.first_name,
@@ -75,4 +74,19 @@ exports.register = function(req,res){
 
   }
 
+  exports.getUserList=  function(req,res,next){
+    
+    MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+      assert.equal(null, err);
+        try{
+          
+            db.collection('users').find({},{user_id:1,first_name:1,last_name:1,email_id:1,contact_number:1}).toArray((err, result) => {
+              res.json({"status":200,"userList":result});
+              }   )  
+        
+  }catch(err){
+          throw err;
+        }
+  })
+  }
 

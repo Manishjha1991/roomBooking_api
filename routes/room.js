@@ -102,6 +102,19 @@ assert.equal(null, err);
 })
 }
 
+exports.addRoom =  function(req,res,next){
+  
+  MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+    assert.equal(null, err);
+      try{
+ 
+  
+  }catch(err){
+        throw err;
+      }
+})
+}
+
 exports.getList=  function(req,res,next){
   
   MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
