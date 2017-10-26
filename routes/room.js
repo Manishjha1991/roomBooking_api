@@ -102,10 +102,15 @@ assert.equal(null, err);
 })
 }
 
-exports.addRooms =  function(req,res,next){
-  //console.log(req);
+exports.cancelBooking = function (req,res,next){
+
+}
+
+
+exports.addBooking =  function(req,res,next){
   const room_id = req.body.room_id;
   const booking_date =  new Date(req.body.booking_date);
+  const booking_id = uuid.v1();
   const booking_title = req.body.booking_title;
   const start_time =req.body.start_time;
   const end_time = req.body.end_time;
@@ -113,16 +118,19 @@ exports.addRooms =  function(req,res,next){
   const host_userId=req.body.host_userId;
   let guest_list = req.body.guest_list;
   guest_list=JSON.parse(guest_list);
+  const booking_status = true;
 
   
  const data = {
+    booking_id,
     booking_date,
     booking_title,
     start_time,
     end_time,
     host_name,
     host_userId,
-    guest_list
+    guest_list,
+    booking_status
   }
   MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
     assert.equal(null, err);

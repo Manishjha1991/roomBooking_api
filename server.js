@@ -22,7 +22,7 @@ router.post('/users',user.register);
 router.get('/users/list',user.getUserList);
 router.post('/login',user.login);
 router.get('/rooms',rooms.getAllRooms);
-router.post('/rooms',rooms.addRooms);
+router.post('/rooms',rooms.addBooking);
 router.get('/list',rooms.getRoomList);
 router.post('/getRoomAvailability',rooms.getRoomAvailability);
 router.post('/getRoomStatusByDate',rooms.getRoomByDate);
