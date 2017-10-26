@@ -129,7 +129,7 @@ exports.addRooms =  function(req,res,next){
       try{
         db.collection('rooms').findOneAndUpdate(
     { room_id: room_id }, 
-    {$push: {reserved:data}},{ new: true },(err,response)=>{
+    {$addToSet: {reserved:data}},{ new: true },(err,response)=>{
              if (err) {
               res.json({ statusCode: 500, body: JSON.stringify(err)})
           }
