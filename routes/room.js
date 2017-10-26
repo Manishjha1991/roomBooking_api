@@ -103,7 +103,7 @@ assert.equal(null, err);
 }
 
 exports.addRooms =  function(req,res,next){
-  console.log(req);
+  //console.log(req);
   const room_id = req.body.room_id;
   const booking_date =  new Date(req.body.booking_date);
   const booking_title = req.body.booking_title;
@@ -111,8 +111,11 @@ exports.addRooms =  function(req,res,next){
   const end_time = req.body.end_time;
   const host_name = req.body.host_name;
   const host_userId=req.body.host_userId;
-  const guest_list = req.body.guest_list;
-  const data = {
+  let guest_list = req.body.guest_list;
+  guest_list=JSON.parse(guest_list);
+
+  
+ const data = {
     booking_date,
     booking_title,
     start_time,
