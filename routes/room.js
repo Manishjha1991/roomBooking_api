@@ -103,7 +103,26 @@ assert.equal(null, err);
 }
 
 exports.cancelBooking = function (req,res,next){
+  const booking_id = req.body.booking_id;
+  const room_id = req.body.room_id;
+  MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
+    assert.equal(null, err);
+    try{
+      db.collection('rooms').findOneAndUpdate(
+        { room_id: room_id},
+        { $pull: { 'reserved': { booking_id: booking_id } } },{ new: true },(error,result)=>{
+         if (error) {
+            res.json({ statusCode: 500, body: JSON.stringify(error)})
+        }
+        else if(result){
+              res.json({ statusCode: 201, body: result});
+      }
+        })
+}catch(err){
+      throw err;
+    }
 
+  })
 }
 
 
@@ -119,9 +138,7 @@ exports.addBooking =  function(req,res,next){
   let guest_list = req.body.guest_list;
   guest_list=JSON.parse(guest_list);
   const booking_status = true;
-
-  
- const data = {
+  const data = {
     booking_id,
     booking_date,
     booking_title,
@@ -153,8 +170,6 @@ exports.addBooking =  function(req,res,next){
 }
 
 exports.getRoomList=  function(req,res,next){
-  
-  console.log(req);
   MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
     assert.equal(null, err);
       try{

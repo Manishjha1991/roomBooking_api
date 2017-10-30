@@ -26,6 +26,8 @@ router.post('/rooms',rooms.addBooking);
 router.get('/list',rooms.getRoomList);
 router.post('/getRoomAvailability',rooms.getRoomAvailability);
 router.post('/getRoomStatusByDate',rooms.getRoomByDate);
+router.delete('/rooms',rooms.cancelBooking);
+
 
 
 
