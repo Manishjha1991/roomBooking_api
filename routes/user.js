@@ -50,7 +50,6 @@ exports.register = function(req,res){
   }
   exports.login = function(req,res){
     let data = req.body;
-    console.log(data)
     if(data.email_id){
         if(data.password){
             MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
@@ -87,13 +86,10 @@ exports.register = function(req,res){
         
     }
   }
-
-  exports.getUserList=  function(req,res,next){
-    
+exports.getUserList=  function(req,res,next){
     MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
       assert.equal(null, err);
         try{
-          
             db.collection('users').find({},{user_id:1,first_name:1,last_name:1,email_id:1,contact_number:1}).toArray((err, result) => {
               res.json({"status":200,"userList":result});
               }   )  
