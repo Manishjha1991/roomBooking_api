@@ -60,6 +60,7 @@ exports.register = function(req,res){
                   if(result !== null){
                       var results = bcrypt.compareSync(data.password,result.password);
                       if(results){
+                            console.log(result.password="***********");
                           res.json({ statusCode: 200, body: result});
                           db.close();
                       }
