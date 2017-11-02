@@ -50,28 +50,41 @@ exports.register = function(req,res){
   }
   exports.login = function(req,res){
     let data = req.body;
-    MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
-        assert.equal(null,err);
-         db.collection('users').findOne({email_id:data.email_id},{password:1},{upsert:false},(err, result) => {
-          if (err) res.json({ statusCode: 500, body: err});
-          if(result !== null){
-              var results = bcrypt.compareSync(data.password,result.password);
-              if(results){
-                  res.json({ statusCode: 200, body: result});
+    console.log(data)
+    if(data.emaiId){
+        if(data.password){
+            MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
+                assert.equal(null,err);
+                 db.collection('users').findOne({email_id:data.email_id},{password:1},{upsert:false},(err, result) => {
+                  if (err) res.json({ statusCode: 500, body: err});
+                  if(result !== null){
+                      var results = bcrypt.compareSync(data.password,result.password);
+                      if(results){
+                          res.json({ statusCode: 200, body: result});
+                          db.close();
+                      }
+                      else{
+                        res.json({ statusCode: 500, body: 'Wrong Password' })
+                        db.close();
+                      }  
+                 }
+                else{
+                  res.json({ statusCode: 404, body: 'No user Found'})
                   db.close();
-              }
-              else{
-                res.json({ statusCode: 500, body: 'Wrong Password' })
-                db.close();
-              }  
-         }
-        else{
-          res.json({ statusCode: 404, body: 'No user Found'})
-          db.close();
-        }
-      });
-      });
+                }
+              });
+              });
 
+        }
+        else{
+            res.json({ statusCode: 404, body: 'enter password'})
+        }        
+    }
+    else
+    {
+        res.json({ statusCode: 404, body: 'enter emailId'})
+        
+    }
   }
 
   exports.getUserList=  function(req,res,next){
