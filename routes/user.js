@@ -51,11 +51,11 @@ exports.register = function(req,res){
   exports.login = function(req,res){
     let data = req.body;
     console.log(data)
-    if(data.emaiId){
+    if(data.email_id){
         if(data.password){
             MongoClient.connect(dbUrl, {native_parser:true},(err, db) => {
                 assert.equal(null,err);
-                 db.collection('users').findOne({email_id:data.email_id},{password:1},{upsert:false},(err, result) => {
+                 db.collection('users').findOne({email_id:data.email_id},{password:1,_id:0,first_name:1,last_name:1,user_id:1,contact_number:1,image_url:1},{upsert:false},(err, result) => {
                   if (err) res.json({ statusCode: 500, body: err});
                   if(result !== null){
                       var results = bcrypt.compareSync(data.password,result.password);
