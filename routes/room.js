@@ -93,7 +93,10 @@ assert.equal(null, err);
     MongoClient.connect(dbUrl, {native_parser:true},(err, db) =>{
       assert.equal(null, err);
         try{
-          db.collection('rooms').aggregate({$unwind: "$reserved"},{$match: { "reserved.booking_date": {$gte: new Date(booking_date)}} },function(err, result) {
+          // db.collection('rooms').aggregate({$unwind: "$reserved"},{$match: { "reserved.booking_date": {$gte: new Date(booking_date)}} },function(err, result) {
+          //   console.log(result);
+          db.collection('rooms').aggregate({$unwind: "$reserved"},{$match: { "reserved.booking_date":  new Date(booking_date)}},function(err, result) {
+            console.log(result);
           res.json({"status":200,"result":result});
           }   )   
   }catch(err){
