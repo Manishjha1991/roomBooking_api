@@ -229,7 +229,7 @@ exports.getRoomList = function(req, res, next) {
             { room_id: 1, room_name: 1, company_location: 1, company_name: 1 }
           )
           .toArray((err, result) => {
-            res.json({ status: 200, companyList: result });
+            res.json({ status: 200, roomList: result });
           });
       }
       if (req.query.type == 2) {
