@@ -1,8 +1,11 @@
 var express    = require("express");
 var user = require('./routes/user');
+var http = require('http');
 var rooms = require('./routes/room');
 var bodyParser = require('body-parser');
 var app = express();
+var port = process.env.PORT || 3000;
+var server = http.createServer(app);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
@@ -32,4 +35,6 @@ router.delete('/rooms',rooms.cancelBooking);
 
 
 app.use('/', router);
-app.listen(3000);
+server.listen(port, () => {
+    console.log(`Room Booking  App is up on ${port}`);
+  });
