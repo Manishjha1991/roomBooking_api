@@ -180,6 +180,8 @@ exports.addBooking = function(req, res, next) {
   const end_time = req.body.end_time;
   const host_name = req.body.host_name;
   const host_userId = req.body.host_userId;
+  const createdDateAndTime=Date();
+  
   let guest_list = req.body.guest_list;
   guest_list = JSON.parse(guest_list);
   const booking_status = true;
@@ -192,7 +194,8 @@ exports.addBooking = function(req, res, next) {
     host_name,
     host_userId,
     guest_list,
-    booking_status
+    booking_status,
+    createdDateAndTime
   };
   MongoClient.connect(dbUrl, { native_parser: true }, (err, db) => {
     assert.equal(null, err);
